@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/constants";
 function Login() {
   const [emailId, setEmailId] = useState("Madhuresh@gmail.com");
   const [password, setPassword] = useState("Madhuresh@123");
+  const [Error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,11 +22,12 @@ function Login() {
         },
         { withCredentials: true }, // part2- for setting token inside cookie pass withCredentials field set to true
       );
-      console.log(res);
+      // console.log(res);
       dispatch(addUser(res.data));
       return navigate("/");
     } catch (err) {
-      console.error(err);
+      // console.log(err?.response);
+      setError(err?.response?.data || "Something Went Wrong");
     }
   };
 
@@ -59,7 +61,7 @@ function Login() {
               />
             </label>
           </div>
-
+          <p className="text-red-500">{Error} </p>
           <div className="card-actions justify-center m-2 ">
             <button
               className="btn btn-primary bg-blue-700 w-20"

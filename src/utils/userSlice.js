@@ -6,7 +6,7 @@ const userSlice = createSlice({
   reducers: {
     addUser: (state, action) => {
       //
-      console.log("action.payload====>", action.payload);
+      // console.log("action.payload====>", action.payload);
       return action.payload;
     },
     removeUser: (state, action) => {
