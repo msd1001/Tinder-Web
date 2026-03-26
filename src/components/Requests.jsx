@@ -1,47 +1,39 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addConnections } from "../utils/connectionSlice";
+import { addRequests } from "../utils/requestSlice";
+import { useEffect } from "react";
 
-const Connections = () => {
-  /// Here i am unable to use store and update data in the store as compared to akshay so i used the useState hook
-  // const connections = useSelector((store) => store.connections);
-  ///
-  // console.log(connections);
-
-  const [friends, setFriend] = useState();
-
+function Requests() {
+  //
+  const requests = useSelector((store) => store.requests);
+  console.log("requests=====>", requests);
   const dispatch = useDispatch();
 
-  const fetchConnections = async () => {
+  const fetchRequests = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/user/connections", {
+      const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
-      // console.log("error===>", res?.data?.data);
-      dispatch(addConnections(res?.data?.data));
-      setFriend(res?.data?.data);
+      dispatch(addRequests(res?.data?.data));
     } catch (err) {
-      console.log(err.message);
+      console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchConnections();
+    fetchRequests();
   }, []);
 
-  // if (!connections) return null;
+  if (!requests) return;
 
-  if (friends?.length === 0) return <h1> No Connections found </h1>;
-
-  console.log(friends);
+  if (requests.length === 0) return <h1>No request found</h1>;
 
   return (
     <div className="text-center my-10">
-      <h1 className=" text-bold text-3xl">Connections</h1>
+      <h1 className=" text-bold text-3xl">Request Received</h1>
 
-      {friends?.map((friend) => {
+      {requests?.map((request) => {
         const {
           _id,
           firstName,
@@ -51,11 +43,11 @@ const Connections = () => {
           skills,
           age,
           gender,
-        } = friend;
+        } = request.fromUserId;
         return (
           <div
             key={_id}
-            className=" flex m-4 p-4 boarder bg-base-300 rounded-lg w-1/2 mx-auto"
+            className=" flex justify-between items-center m-4 p-4 boarder bg-base-300 rounded-lg w-2/3 mx-auto"
           >
             <div>
               {" "}
@@ -72,11 +64,19 @@ const Connections = () => {
               {age && gender && <p>{age + "" + gender}</p>}
               <p>{about}</p>
             </div>
+            <div>
+              <button className="btn btn-active btn-primary bg-sky-800 mx-2">
+                Reject
+              </button>
+              <button className="btn btn-active btn-secondary bg-pink-400 mx-2">
+                Accept
+              </button>
+            </div>
           </div>
         );
       })}
     </div>
   );
-};
+}
 
-export default Connections;
+export default Requests;
