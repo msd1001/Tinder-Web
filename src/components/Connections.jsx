@@ -35,7 +35,7 @@ const Connections = () => {
 
   if (friends?.length === 0) return <h1> No Connections found </h1>;
 
-  console.log(friends);
+  // console.log(friends);
 
   return (
     <div className="text-center my-10">

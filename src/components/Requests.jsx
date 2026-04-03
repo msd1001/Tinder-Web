@@ -7,7 +7,7 @@ import { useEffect } from "react";
 function Requests() {
   //
   const requests = useSelector((store) => store.requests);
-  console.log("requests=====>", requests);
+  // console.log("requests=====>", requests);
   const dispatch = useDispatch();
 
   // either we accept or reject the request, then we dispatching action to update the store so that as soon store is updated particular request  will be removed from UI

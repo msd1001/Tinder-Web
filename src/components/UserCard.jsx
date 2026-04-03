@@ -19,7 +19,7 @@ function UserCard({ user }) {
       );
       dispatch(removeUserFromFeed(userId));
     } catch (err) {
-      console.error(error);
+      console.error(err);
     }
   };
   return (
