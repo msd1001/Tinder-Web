@@ -17,6 +17,7 @@ function UserCard({ user }) {
           withCredentials: true,
         },
       );
+      console.log(userId);
       dispatch(removeUserFromFeed(userId));
     } catch (err) {
       console.error(err);
