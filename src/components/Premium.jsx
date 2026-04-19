@@ -1,7 +1,21 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { useState } from "react";
 
 const Premium = () => {
+  const [isUserPremium, setIsUserPremium] = useState(false);
+
+  //
+  const verifyPremiumUser = async () => {
+    const res = await axios.get(BASE_URL + "/premium/verify", {
+      withCredentials: true,
+    });
+
+    if (res.data.isPremium) {
+      setIsUserPremium(true);
+    }
+  };
+
   const handleBuyClick = async (type) => {
     // POST
     const order = await axios.post(
@@ -30,6 +44,8 @@ const Premium = () => {
       theme: {
         color: "#F37254",
       },
+      // jb payment box open hogga and payment successful huva then only below method will be called
+      handler: verifyPremiumUser,
     };
 
     // It should open the Razor pay Dialog box
@@ -39,7 +55,7 @@ const Premium = () => {
     rzp.open();
   };
 
-  return (
+  return !isUserPremium ? (
     <div className="m-10">
       <div className="flex w-full">
         <div className="card bg-base-300 rounded-box grid h-80 grow place-items-center">
@@ -75,6 +91,8 @@ const Premium = () => {
         </div>
       </div>
     </div>
+  ) : (
+    "You are already a Premium user"
   );
 };
 
